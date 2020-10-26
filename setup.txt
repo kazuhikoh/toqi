@@ -1,0 +1,61 @@
+Timezone:
+
+  sudo timedatectl set-timezone Asia/Tokyo
+
+Environment Variables:
+
+  # User Scripts
+  export PATH=$PATH:$HOME/bin
+
+Repository Management Tools:
+
+  Golang
+  - export PATH=$PATH:/usr/local/go/bin
+  - export GOPATH=$HOME/go
+  - export PATH=$PATH:$GOPATH/bin
+
+  x-motemen/ghq
+  - go get github.com/x-motemen/ghq
+
+  Node.js
+  - apt install nodejs npm n
+  - npm config set prefix '~/.npm-global'
+  - export PATH=$PATH:~/.npm-global/bin
+
+Install FFmpeg
+
+  git://source.ffmpeg.org/ffmpeg.git
+
+  apt install openssl libssl-dev libx264-dev libmp3lame-dev
+
+  cd ffmpeg
+  ./configure --enable-gpl --enable-libx264 --enable-nonfree --enable-openssl --enable-libmp3lame
+  make
+  make install
+
+Install RTMPdump:
+
+  apt install rtmpdump
+
+Install Scripts:
+
+  ShellScript:
+    ~/bin/agrec      <-- kazuhikoh/agrec  
+    ~/bin/slack-post <-- kazuhikoh/slack-post
+
+  Node.js:
+    ~/.npm-global/bin/hibikiradio <-- kazuhikoh/hibikiradio
+    ~/.npm-global/bin/radiru      <-- kazuhikoh/radiru
+    ~/.npm-global/bin/gmr         <-- kazuhikoh/gmr
+
+  Configs:
+    ~/.slack-post.config
+    ~/.gmr-config.json
+
+Start Cron:
+
+  ~/cron/*
+  chmod +x ~/cron/*
+
+  crontab ~/.crontab
+
