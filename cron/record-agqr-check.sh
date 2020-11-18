@@ -1,5 +1,6 @@
 #!/bin/bash
 
+PATH=$PATH:/usr/local/bin
 PATH=$PATH:~/bin
 
 readonly SLACKPOST_ID="$1"
