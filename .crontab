@@ -1,15 +1,15 @@
 # m h dom mon dow command
 
 # ぐーもる荘
-* * * * * for i in $(seq 3 20 59); do (sleep $i; $HOME/cron/gmr-check-feeds.sh "$HOME/Downloads/1091/gu-morusou/feeds" 1091 log "$HOME/Downloads/1091/gu-morusou/.lock_check-feeds") & done
-* * * * * for i in $(seq 5 20 59); do (sleep $i; $HOME/cron/gmr-check-likes.sh "$HOME/Downloads/1091/gu-morusou/like_latest" 1091 log "$HOME/Downloads/1091/gu-morusou/.lock_check-likes") & done
+* * * * * for i in $(seq 3 20 59); do (sleep $i; $HOME/cron/gmr-check-feeds.sh "$HOME/Downloads/1091/gu-morusou/feeds" fc "$HOME/Downloads/1091/gu-morusou/.lock_check-feeds") & done
+* * * * * for i in $(seq 5 20 59); do (sleep $i; $HOME/cron/gmr-check-likes.sh "$HOME/Downloads/1091/gu-morusou/like_latest" fc "$HOME/Downloads/1091/gu-morusou/.lock_check-likes") & done
 
 # Check AGQR
-* * * * * $HOME/cron/record-agqr-check.sh 1091 log
+* * * * * $HOME/cron/record-agqr-check.sh log
 
 # 徳井青空のまぁるくなぁれ！ (毎週木曜25:00-25:30)
-00 01 * * 5 $HOME/cron/record-agqr-marunare.sh "$HOME/Downloads/1091/marunare" 1091 log
+00 01 * * 5 $HOME/cron/record-agqr-marunare.sh "$HOME/Downloads/1091/marunare" log
 
 # 徳井青空のまぁるくなぁれ！ アーカイブ (毎週金曜13:00)
-05 12 * * 5 $HOME/cron/download-marunare.sh "$HOME/Downloads/1091/marunare" 1091 log
+05 12 * * 5 $HOME/cron/download-marunare.sh "$HOME/Downloads/1091/marunare" log
 
