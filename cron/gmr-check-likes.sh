@@ -6,8 +6,7 @@ PATH=$PATH:~/.npm-global/bin
 
 readonly LATEST_FILEPATH="$1"
 readonly SLACKPOST_ID="$2"
-readonly SLACKPOST_CH="$3"
-readonly LOCK="$4"
+readonly LOCK="$3"
 
 readonly TEMP=$(mktemp --tmpdir)
 
@@ -38,7 +37,7 @@ check(){
 notify() {
   {
     cat "$LATEST_FILEPATH" | jq -r '.activity_date + " " + .text'
-  }| slack-post -w "$SLACKPOST_ID" -c "$SLACKPOST_CH" 
+  }| slack-post -w "$SLACKPOST_ID" 
 
 }
 

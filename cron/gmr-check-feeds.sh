@@ -6,8 +6,7 @@ PATH=$PATH:~/.npm-global/bin
 
 readonly DIR_FEEDS="$1"
 readonly SLACKPOST_ID="$2"
-readonly SLACKPOST_CH="$3"
-readonly LOCK="$4"
+readonly LOCK="$3"
 
 readonly SCRIPT_PATH="$(readlink -e $0)"
 readonly SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
@@ -42,9 +41,9 @@ copyNewFeeds(){
     if [ ! -e "$to" ]; then
       cp "$from" "$to"
       {
-        cat "$to" | jq -r .body_text
+        cat "$to" | jq -r '.body_text'
         cat "$to" | jq -r '.contents[].thumbnail' 
-      }| slack-post -w "$SLACKPOST_ID" -c "$SLACKPOST_CH" 
+      }| slack-post -w "$SLACKPOST_ID" 
     fi
   done
 }
