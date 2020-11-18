@@ -15,12 +15,21 @@ readonly DIR_NOW="${DIR%/}/$(date '+%Y%m%d-%H%M%S')"
 readonly FILEPATH_TWITTER="$DIR_NOW/twitter.json"
 readonly FILEPATH_YOUTUBE="$DIR_NOW/youtube.json"
 readonly FILEPATH_BILIBILI="$DIR_NOW/bilibili.json"
-readonly FILEPATH_FANCLUB="$DIR_NOW/fc.json"
+readonly FILEPATH_FANCLUB_USERINFO="$DIR_NOW/fanclub-userinfo.json"
 
 # FUNCTION ###############################
 
+function stat_fanclub() {
+  gmr user 1 > "$FILEPATH_FANCLUB_USERINFO"
+  local x1=$(cat "$FILEPATH_FANCLUB_USERINFO" | jq .level)
+
+  echo 'fanclub) ぐーもる荘'
+  echo "  開荘から: ${x1}日"
+}
+
 function stat_twitter() {
-  local x=1
+  echo 'twitter) @tokui_sorangley'
+  echo "  NOT IMPLEMENTED"
 }
 
 function stat_youtube() {
@@ -47,10 +56,6 @@ function stat_bilibili() {
   echo "  black:     ${x4}"
 }
 
-function stat_fc() {
-  local x=1
-}
-
 # EXECUTE ###############################
 
 if [ ! -e "$DIR_NOW" ]; then
@@ -58,9 +63,12 @@ if [ ! -e "$DIR_NOW" ]; then
 fi
 
 {
+  stat_fanclub
+  echo ""
   stat_twitter
+  echo ""
   stat_youtube
+  echo ""
   stat_bilibili
-  stat_fc
 } | slack-post -w "$SLACKPOST_ID"
 
