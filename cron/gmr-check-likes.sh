@@ -11,7 +11,7 @@ readonly LOCK="$3"
 readonly TEMP=$(mktemp --tmpdir)
 
 check(){
-  gmr owner-logs -l 0 1 > "$TEMP"
+  gmr activity -l 1 0 1 > "$TEMP"
 
   # valid?
   local temp=$(cat $TEMP | head -n 1)
