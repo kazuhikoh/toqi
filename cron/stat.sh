@@ -23,22 +23,20 @@ function stat_fanclub() {
   gmr user 1 > "$FILEPATH_FANCLUB_USERINFO"
   local x1=$(cat "$FILEPATH_FANCLUB_USERINFO" | jq .level)
 
-  echo 'fanclub) ぐーもる荘'
-  echo "  開荘から: ${x1}日"
+  echo "ぐーもる荘: 開荘から ${x1} 日"
 }
 
 function stat_twitter() {
-  echo 'twitter) @tokui_sorangley'
-  echo "  NOT IMPLEMENTED"
+  echo "@tokui_sorangley: <<NOT IMPLEMENTED>>"
 }
 
 function stat_youtube() {
-  curl -Ss 'https://www.youtube.com/channel/UCJ8Wj4izZCt1i9gdTXnbD_Q/videos' | grep -oP '(?<=window\["ytInitialData"\] = ){.*}(?=;)' > "$FILEPATH_YOUTUBE"
+  #curl -Ss 'https://www.youtube.com/channel/UCJ8Wj4izZCt1i9gdTXnbD_Q/videos' | grep -oP '(?<=window\["ytInitialData"\] = ){.*}(?=;)' > "$FILEPATH_YOUTUBE"
+  curl -Ss 'https://www.youtube.com/channel/UCJ8Wj4izZCt1i9gdTXnbD_Q/videos' | grep -oP '(?<=ytInitialData = ){.*}(?=;)' > "$FILEPATH_YOUTUBE"
 
   local x1=$(cat "$FILEPATH_YOUTUBE" | jq -r .header.c4TabbedHeaderRenderer.subscriberCountText.simpleText)
 
-  echo 'youtube) そらまるのチャンネル'
-  echo "  ${x1}"
+  echo "そらまるのチャンネル: ${x1}"
 }
 
 function stat_bilibili() {
@@ -49,7 +47,7 @@ function stat_bilibili() {
   local x3=$(cat "$FILEPATH_BILIBILI" | jq '.data.whisper')
   local x4=$(cat "$FILEPATH_BILIBILI" | jq '.data.black')
   
-  echo 'bilibili) 德井青空-official'
+  echo "德井青空-official: "
   echo "  follower:  ${x1}"
   echo "  following: ${x2}"
   echo "  whisper:   ${x3}"
