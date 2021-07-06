@@ -7,7 +7,8 @@
 * * * * * for i in $(seq 3 20 59); do (sleep $i; $HOME/cron/gmr-check-feeds.sh "$HOME/Downloads/1091/gu-morusou/feeds-owner" fc "$HOME/Downloads/1091/gu-morusou/.lock_check-feeds-owner") & done
 * * * * * for i in $(seq 5 20 59); do (sleep $i; $HOME/cron/gmr-check-likes.sh "$HOME/Downloads/1091/gu-morusou/like_latest" fc "$HOME/Downloads/1091/gu-morusou/.lock_check-likes") & done
 * * * * * for i in $(seq 8 20 59); do (sleep $i; $HOME/cron/gmr-feed-check.sh "$HOME/Downloads/1091/gu-morusou/feeds/" 10 "$HOME/Downloads/1091/gu-morusou/.lock_check-feeds") & done
-00 05 * * * $HOME/cron/gmr-download-hitokoto.sh "$HOME/Downloads/1091/gu-morusou/hitokoto" log
+00 05 * * * $HOME/cron/gmr-download-hitokoto.sh "$HOME/Downloads/1091/gu-morusou/hitokoto" fc
+* * * * * $HOME/cron/gmr-check-error.sh "$HOME/Downloads/1091/gu-morusou/error" fc
 
 # Check AGQR
 * * * * * $HOME/cron/record-agqr-check.sh log
