@@ -26,7 +26,7 @@ do
     cat /proc/sys/kernel/random/uuid
   )
 
-  to="${TO_DIR}/${subdir}/${TO_PREFIX}${filename}_{uuid}.json"
+  to="${TO_DIR}/${subdir}/${TO_PREFIX}${filename}_${uuid}.json"
 
   # checking file NOT exists which has same content
   hash=$(md5sum $path | cut -d " " -f 1)
