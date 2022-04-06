@@ -8,14 +8,14 @@ readonly OUT="$1"
 readonly SLACKPOST_ID="$2"
 
 # Skip?
-if [ -e $LOCK ]; then
+if [ -e $OUT ]; then
   exit 2
 fi
 
 # Check
-err=$(gmr feed 0 0 1 >/dev/null 2>&1 >/dev/null)
+err=$(gmr feeds 0 0 1 2>&1 >/dev/null)
 
-if [ -z $err ]; then
+if [ -n "$err" ]; then
   echo $err > "$OUT";
   cat "$OUT" | jq -r '.head.resultCode + " " + .head.message' | slack-post -w $SLACKPOST_ID
 fi
