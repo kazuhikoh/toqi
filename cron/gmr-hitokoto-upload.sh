@@ -24,11 +24,15 @@ ls -1 "$HITOKOTO_DIR" | xargs -I{} skicka mkdir "${GDRIVE_UPLOAD_DIR%/}/{}"
       cd "$dir"
       ls -1 | {
         while read file; do
+          echo -n "$file "
           skicka upload "$file" "${GDRIVE_UPLOAD_DIR%/}/$dir/$file" 2>> $TEMP_UPLOAD_OUTPUT
   
           # find line of uploading: "Files:  5 B / 5 B [==========..."
           grep -P '^Files' $TEMP_UPLOAD_OUTPUT >/dev/null 2>/dev/null && {
+	    echo "UPLOADED!"
             echo "$file" >> $TEMP_UPLOAD_LIST
+          } || {
+	    echo "SKIP"
           }
         done
       }
