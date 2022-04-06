@@ -43,7 +43,7 @@ copyNewFeeds(){
       {
         cat "$to" | jq -r '.body_text'
         cat "$to" | jq -r '.contents[].thumbnail' 
-      }| slack-post -w "$SLACKPOST_ID" 
+      } | slack-post -w "$SLACKPOST_ID" 
     fi
   done
 }
