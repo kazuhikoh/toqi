@@ -13,11 +13,10 @@
 * * * * * $HOME/cron/gmr-check-error.sh "$HOME/Downloads/1091/gu-morusou/error" log
 
 # Check AGQR
-* * * * * $HOME/cron/record-agqr-check.sh log
+#* * * * * $HOME/cron/record-agqr-check.sh log
 
 # 徳井青空のまぁるくなぁれ！ (毎週木曜25:00-25:30)
-00 01 * * 5 $HOME/cron/record-agqr-marunare.sh "$HOME/Downloads/1091/marunare" log
-
+#00 01 * * 5 $HOME/cron/record-agqr-marunare.sh "$HOME/Downloads/1091/marunare" log
 # 徳井青空のまぁるくなぁれ！ アーカイブ (毎週金曜13:00)
-05 12 * * 5 $HOME/cron/download-marunare.sh "$HOME/Downloads/1091/marunare" log
+#05 12 * * 5 $HOME/cron/download-marunare.sh "$HOME/Downloads/1091/marunare" log
 
