@@ -41,7 +41,9 @@ splitLatestFeeds(){
   done
 }
 
-copyNewFeeds(){
+copyNewFeedsAndNotify(){
+  mkdir -p "${DIR_FEEDS}" 2>/dev/null
+
   for from in ${TEMP_FEED}*
   do
     local filename="${from##*/}"
@@ -49,11 +51,9 @@ copyNewFeeds(){
 
     if [ ! -e "$to" ]; then
       echo "NEW ${filename}" >&2
+
       cp "$from" "$to"
-      {
-        cat "$to" | jq -r '.body_text'
-        cat "$to" | jq -r '.contents[].thumbnail' 
-      } | slack-post -w "$SLACKPOST_ID" 
+      cat "$to" | "${SCRIPT_DIR}/gmr-feed-notify.sh" "$SLACKPOST_ID"
     else
       echo "SKIP ${filename}" >&2
     fi
@@ -66,6 +66,6 @@ if [ ! -e $LOCK ]; then
   touch "$LOCK"
   fetchLatestFeeds
   splitLatestFeeds
-  copyNewFeeds
+  copyNewFeedsAndNotify 
   rm -f "$LOCK"
 fi
