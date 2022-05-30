@@ -29,7 +29,16 @@ fetchLatestFeeds(){
 }
 
 splitLatestFeeds(){
-  "${SCRIPT_DIR}/gmr-splitFeeds.sh" "$TEMP_LATEST" "$TEMP_FEED"
+  local temp_split=$(mktemp --tmpdir -d)
+  split -l 1 -d "$TEMP_LATEST" "${temp_split}/feed-"
+
+  for path in ${temp_split}/*
+  do
+    local filename=$(
+      cat $path | jq -r '.article_date + "-" + (.article_no|tostring)' | sed 's/[\/ :]//g'
+    )
+    mv $path "${TEMP_FEED}${filename}.json"
+  done
 }
 
 copyNewFeeds(){
@@ -39,11 +48,14 @@ copyNewFeeds(){
     local to="${DIR_FEEDS}/${filename}"
 
     if [ ! -e "$to" ]; then
+      echo "NEW ${filename}" >&2
       cp "$from" "$to"
       {
         cat "$to" | jq -r '.body_text'
         cat "$to" | jq -r '.contents[].thumbnail' 
       } | slack-post -w "$SLACKPOST_ID" 
+    else
+      echo "SKIP ${filename}" >&2
     fi
   done
 }
