@@ -17,8 +17,8 @@ check(){
   gmr activity -l 1 0 1 > "$TEMP"
 
   # valid?
-  local temp=$(cat $TEMP | head -n 1)
-  if [ ${temp:0:1} -eq '{' ]; then
+  local json=$(cat $TEMP | head -n 1)
+  if [[ "${json:0:1}" != '{' ]]; then
     return 1
   fi
 
