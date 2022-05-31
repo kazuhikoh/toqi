@@ -8,6 +8,9 @@ readonly LATEST_FILEPATH="$1"
 readonly SLACKPOST_ID="$2"
 readonly LOCK="$3"
 
+readonly SCRIPT_PATH="$(readlink -e $0)"
+readonly SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
+
 readonly TEMP=$(mktemp --tmpdir)
 
 check(){
@@ -22,29 +25,24 @@ check(){
   # first time
   if [ ! -e "$LATEST_FILEPATH" ]; then
     mv "$TEMP" "$LATEST_FILEPATH"	
-    notify
+    cat "$LATEST_FILEPATH" 
     return 0
   fi
  
   # difference
   if ! diff -q "$LATEST_FILEPATH" "$TEMP" >/dev/null; then
     mv "$TEMP" "$LATEST_FILEPATH"	
-    notify
+    cat "$LATEST_FILEPATH" 
     return 0
   fi
-}
-
-notify() {
-  {
-    cat "$LATEST_FILEPATH" | jq -r '.activity_date + " " + .text'
-  }| slack-post -w "$SLACKPOST_ID" 
-
 }
 
 ################################
 
 if [ ! -e $LOCK ]; then
   touch "$LOCK"
-  check 
+
+  check | "${SCRIPT_DIR}/gmr-activity-notify.sh" $SLACKPOST_ID
+
   rm -f "$LOCK"
 fi
