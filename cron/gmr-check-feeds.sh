@@ -50,7 +50,7 @@ copyNewFeedsAndNotify(){
     local to="${DIR_FEEDS}/${filename}"
 
     if [ ! -e "$to" ]; then
-      echo "NEW ${filename}" >&2
+      echo "SAVE ${filename}" >&2
 
       cp "$from" "$to"
       cat "$to" | "${SCRIPT_DIR}/gmr-feed-notify.sh" "$SLACKPOST_ID"

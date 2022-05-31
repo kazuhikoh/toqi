@@ -9,7 +9,7 @@ readonly tempdir="$(mktemp --tmpdir -d 'gmr-feed-check-merge.XXX')"
 # split: stdin -> ???/feed-XXX
 cat - | split -l 1 -d - "$tempdir/feed-"
 
-# rename: ???/feed-XXX -> TO_DIR/YYYY/MM/TO_PREFIX-{YYYYMMDDhhmmss}-{article_no}.json
+# rename: ???/feed-XXX -> TO_DIR/YYYY/MM/{TO_PREFIX}{YYYYMMDDhhmmss}-{article_no}.json
 for path in $tempdir/*
 do
   subdir=$(

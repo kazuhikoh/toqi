@@ -13,28 +13,14 @@ readonly LOCK="$3"
 readonly SCRIPT_PATH="$(readlink -e $0)"
 readonly SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
 
-readonly TEMP_DIR=$(mktemp --tmpdir -d 'gmr-feed-fetch.XXX')
-readonly TEMP_LATEST="$TEMP_DIR/latest"
-readonly TEMP_FEED="$TEMP_DIR/feed-"
-
-
-fetch(){
-  local pagesize=$1
-
-  gmr feeds 0 0 $pagesize 
-}
-
-merge(){
-  local dir=$1
-
-  "${SCRIPT_DIR}/gmr-feed-merge.sh" "$dir" "feed-"
-}
-
-################################
 
 if [ ! -e $LOCK ]; then
   touch "$LOCK"
-  fetch $PAGESIZE | merge "$DIR_ROOT"
+
+  gmr feeds 0 0 $PAGESIZE \
+   | "${SCRIPT_DIR}/gmr-feed-merge.sh" "$DIR_ROOT" "feed-"
+
+
   rm -f "$LOCK"
 fi
 
