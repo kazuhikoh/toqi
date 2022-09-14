@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Merge new activities into TO_DIR/YYYY/MM/TO_PREFIX-{YYYYMMDDhhmmss}-{article_no}.json
-readonly TO_DIR="$1"
+readonly TO_DIR="${1%/}"
 readonly TO_PREFIX=$2
 
-readonly tempdir="$(mktemp --tmpdir -d 'gmr-feed-check-merge.XXX')"
+readonly tempdir="$(mktemp --tmpdir -d 'tmp.gmr-activity-merge.XXX')"
 
 # split: stdin -> ???/activity_???
 cat - | split -l 1 -d - "$tempdir/activity-"
@@ -32,9 +32,13 @@ do
   hash=$(md5sum $path | cut -d " " -f 1)
   hash_found=$(md5sum "${TO_DIR}/${subdir}"/* | grep $hash)
   if [ -n "$hash_found" ]; then
+    echo "SKIP ${to}"
     continue
   fi
 
+  echo "SAVE ${to}"
   mkdir -p "${to%/*}"
   mv $path "$to"
 done
+
+rm -rf $tempdir

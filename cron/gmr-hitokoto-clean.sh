@@ -8,8 +8,8 @@ readonly HITOKOTO_DIR="$1"
 readonly GDRIVE_UPLOAD_DIR="$2"
 readonly SLACKPOST_ID="$3"
 
-readonly TEMP_BACKUP_LIST=$(mktemp --tmpdir)
-readonly TEMP_LOCALONLY_LIST=$(mktemp --tmpdir)
+readonly TEMP_BACKUP_LIST=$(mktemp --tmpdir 'tmp.gmr-hitokoto-clean-backup.XXX')
+readonly TEMP_LOCALONLY_LIST=$(mktemp --tmpdir 'tmp.gmr-hitokoto-clean-localfiles.XXX')
 
 {
   cd "$HITOKOTO_DIR"
@@ -48,3 +48,5 @@ readonly TEMP_LOCALONLY_LIST=$(mktemp --tmpdir)
   done
 } | slack-post -w $SLACKPOST_ID
 
+rm $TEMP_BACKUP_LIST
+rm $TEMP_LOCALONLY_LIST

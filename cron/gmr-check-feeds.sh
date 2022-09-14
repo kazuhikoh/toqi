@@ -12,7 +12,7 @@ readonly SCRIPT_PATH="$(readlink -e $0)"
 readonly SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
 
 readonly DEBUG=false
-readonly TEMP_DIR=$(mktemp --tmpdir -d 'gmr-check.XXX')
+readonly TEMP_DIR=$(mktemp --tmpdir -d 'tmp.gmr-check-feeds.XXX')
 readonly TEMP_LATEST="$TEMP_DIR/latest"
 readonly TEMP_FEED="$TEMP_DIR/feed-"
 
@@ -29,7 +29,7 @@ fetchLatestFeeds(){
 }
 
 splitLatestFeeds(){
-  local temp_split=$(mktemp --tmpdir -d)
+  local temp_split=$(mktemp --tmpdir -d 'tmp.gmr-check-feeds-split.XXX')
   split -l 1 -d "$TEMP_LATEST" "${temp_split}/feed-"
 
   for path in ${temp_split}/*
@@ -39,6 +39,8 @@ splitLatestFeeds(){
     )
     mv $path "${TEMP_FEED}${filename}.json"
   done
+
+  rm -rf ${temp_split}
 }
 
 copyNewFeedsAndNotify(){
@@ -67,5 +69,6 @@ if [ ! -e $LOCK ]; then
   fetchLatestFeeds
   splitLatestFeeds
   copyNewFeedsAndNotify 
+  rm -rf ${TEMP_DIR}
   rm -f "$LOCK"
 fi

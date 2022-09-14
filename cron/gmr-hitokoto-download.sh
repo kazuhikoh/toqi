@@ -8,6 +8,13 @@ readonly DIR_ROOT="$1"
 readonly SLACKPOST_ID=$2
 
 {
+  echo "TO: $DIR_ROOT"
+  if [ ! -d "$DIR_ROOT" ]; then
+    mkdir -p "$DIR_ROOT"
+  fi
+} >&2
+
+{
   cd "$DIR_ROOT"
 
   gmr music-albums -p 0 0 2 \

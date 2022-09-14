@@ -8,8 +8,8 @@ readonly HITOKOTO_DIR="$1"
 readonly GDRIVE_UPLOAD_DIR="$2"
 readonly SLACKPOST_ID="$3"
 
-readonly TEMP_UPLOAD_OUTPUT=$(mktemp --tmpdir)
-readonly TEMP_UPLOAD_LIST=$(mktemp --tmpdir)
+readonly TEMP_UPLOAD_OUTPUT=$(mktemp --tmpdir 'tmp.gmr-hitokoto-upload-output.XXX')
+readonly TEMP_UPLOAD_LIST=$(mktemp --tmpdir 'tmp.gmr-hitokoto-upload-list.XXX')
 
 # mkdir 
 ls -1 "$HITOKOTO_DIR" | xargs -I{} skicka mkdir "${GDRIVE_UPLOAD_DIR%/}/{}"
@@ -47,3 +47,5 @@ if [ -s $TEMP_UPLOAD_LIST ]; then
   } | slack-post -w $SLACKPOST_ID
 fi
 
+rm $TEMP_UPLOAD_OUTPUT
+rm $TEMP_UPLOAD_LIST

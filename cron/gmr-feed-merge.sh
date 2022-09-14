@@ -4,7 +4,7 @@
 readonly TO_DIR="$1"
 readonly TO_PREFIX=$2
 
-readonly tempdir="$(mktemp --tmpdir -d 'gmr-feed-check-merge.XXX')"
+readonly tempdir="$(mktemp --tmpdir -d 'tmp.gmr-feed-merge.XXX')"
 
 # split: stdin -> ???/feed-XXX
 cat - | split -l 1 -d - "$tempdir/feed-"
@@ -30,3 +30,4 @@ do
   fi
 done
 
+rm -rf $tempdir

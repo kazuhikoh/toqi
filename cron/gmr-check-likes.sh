@@ -11,7 +11,7 @@ readonly LOCK="$3"
 readonly SCRIPT_PATH="$(readlink -e $0)"
 readonly SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
 
-readonly TEMP=$(mktemp --tmpdir)
+readonly TEMP=$(mktemp --tmpdir 'tmp.gmr-check-likes.XXX')
 
 check(){
   gmr activity -l 1 0 1 > "$TEMP"
@@ -19,6 +19,7 @@ check(){
   # valid?
   local json=$(cat $TEMP | head -n 1)
   if [[ "${json:0:1}" != '{' ]]; then
+    rm $TEMP
     return 1
   fi
 
@@ -35,6 +36,8 @@ check(){
     cat "$LATEST_FILEPATH" 
     return 0
   fi
+
+  rm $TEMP
 }
 
 ################################
