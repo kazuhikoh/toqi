@@ -26,3 +26,6 @@
 # アルマギア情報局 
 30 16 * * 0 $HOME/cron/record-agqr-armagia.sh "$HOME/Downloads/1091/agqr" log
 
+# 週刊ファルコムラジオ
+00 22 * * 4 $HOME/cron/record-agqr-falcom.sh "$HOME/Downloads/1091/agqr" log
+
