@@ -15,6 +15,8 @@
 05 05 28 * * $HOME/cron/gmr-hitokoto-clean.sh $HOME/Downloads/1091/gu-morusou/hitokoto/ gdrive:1091/resources/fc/gu-morusou.app/hitokoto/ log
 * * * * * $HOME/cron/gmr-check-error.sh "$HOME/Downloads/1091/gu-morusou/error" log
 
+00 00 * * * rm -rf /tmp/tmp.gmr*
+
 # Check AGQR
 #* * * * * $HOME/cron/record-agqr-check.sh log
 
