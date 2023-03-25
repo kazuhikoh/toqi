@@ -1,5 +1,7 @@
 # m h dom mon dow command
 
+@reboot $HOME/cron/init.sh
+
 # stat
 00 09 * * * $HOME/cron/stat.sh "$HOME/Downloads/1091/stat" log
 
