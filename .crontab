@@ -11,8 +11,8 @@
 * * * * * for i in $(seq 8 20 59); do (sleep $i; $HOME/cron/gmr-feed-fetch.sh "$HOME/Downloads/1091/gu-morusou/feeds/" 10 "$HOME/Downloads/1091/gu-morusou/.lock_feeds-fetch") & done
 * * * * * for i in $(seq 8 20 59); do (sleep $i; $HOME/cron/gmr-activity-fetch.sh "$HOME/Downloads/1091/gu-morusou/activity/" 20 "$HOME/Downloads/1091/gu-morusou/.lock_activity-fetch") & done
 00 05 * * * $HOME/cron/gmr-hitokoto-download.sh "$HOME/Downloads/1091/gu-morusou/hitokoto" log
-02 05 * * * $HOME/cron/gmr-hitokoto-upload.sh $HOME/Downloads/1091/gu-morusou/hitokoto/ /1091/resources/fc/gu-morusou.app/hitokoto/ log
-05 05 28 * * $HOME/cron/gmr-hitokoto-clean.sh $HOME/Downloads/1091/gu-morusou/hitokoto/ /1091/resources/fc/gu-morusou.app/hitokoto/ log
+02 05 * * * $HOME/cron/gmr-hitokoto-upload.sh $HOME/Downloads/1091/gu-morusou/hitokoto/ gdrive:1091/resources/fc/gu-morusou.app/hitokoto/ log
+05 05 28 * * $HOME/cron/gmr-hitokoto-clean.sh $HOME/Downloads/1091/gu-morusou/hitokoto/ gdrive:1091/resources/fc/gu-morusou.app/hitokoto/ log
 * * * * * $HOME/cron/gmr-check-error.sh "$HOME/Downloads/1091/gu-morusou/error" log
 
 # Check AGQR
