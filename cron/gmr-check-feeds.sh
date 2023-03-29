@@ -14,51 +14,30 @@ readonly SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
 readonly DEBUG=false
 readonly TEMP_DIR=$(mktemp --tmpdir -d 'tmp.gmr-check-feeds.XXX')
 readonly TEMP_LATEST="$TEMP_DIR/latest"
-readonly TEMP_FEED="$TEMP_DIR/feed-"
+readonly TEMP_NEWFEEDS="$TEMP_DIR/new_feeds"
 
 readonly CHECK_PAGESIZE=3
 
-# fetch latest feeds
+# fetch latest feeds -> $TEMP_LATEST
 fetchLatestFeeds(){
   gmr feeds 1 0 $CHECK_PAGESIZE > "$TEMP_LATEST"
 
   $DEBUG && {
-    echo 'LATEST:' "$TEMP_LATEST"
+    echo 'LATEST:' "$TEMP_LATEST" >&2
     cat "$TEMP_LATEST"
   }
 }
 
-splitLatestFeeds(){
-  local temp_split=$(mktemp --tmpdir -d 'tmp.gmr-check-feeds-split.XXX')
-  split -l 1 -d "$TEMP_LATEST" "${temp_split}/feed-"
-
-  for path in ${temp_split}/*
-  do
-    local filename=$(
-      cat $path | jq -r '.article_date + "-" + (.article_no|tostring)' | sed 's/[\/ :]//g'
-    )
-    mv $path "${TEMP_FEED}${filename}.json"
-  done
-
-  rm -rf ${temp_split}
+# merge $TEMP_LATEST -> $DIR_FEEDS/YYYY/MM/feed-*.json
+mergeLatestFeeds(){
+  cat "$TEMP_LATEST" \
+    | "${SCRIPT_DIR}/gmr-feed-merge.sh" "${DIR_FEEDS}" "feed-" >"$TEMP_NEWFEEDS"
 }
 
-copyNewFeedsAndNotify(){
-  mkdir -p "${DIR_FEEDS}" 2>/dev/null
-
-  for from in ${TEMP_FEED}*
+notifyNewFeeds() {
+  for f in $(cat $TEMP_NEWFEEDS)
   do
-    local filename="${from##*/}"
-    local to="${DIR_FEEDS}/${filename}"
-
-    if [ ! -e "$to" ]; then
-      echo "SAVE ${filename}" >&2
-
-      cp "$from" "$to"
-      cat "$to" | "${SCRIPT_DIR}/gmr-feed-notify.sh" "$SLACKPOST_ID"
-    else
-      echo "SKIP ${filename}" >&2
-    fi
+    cat $f | "${SCRIPT_DIR}/gmr-feed-notify.sh" "$SLACKPOST_ID"
   done
 }
 
@@ -67,8 +46,8 @@ copyNewFeedsAndNotify(){
 if [ ! -e $LOCK ]; then
   touch "$LOCK"
   fetchLatestFeeds
-  splitLatestFeeds
-  copyNewFeedsAndNotify 
-  rm -rf ${TEMP_DIR}
+  mergeLatestFeeds
+  notifyNewFeeds
+  rm -rf $TEMP_DIR
   rm -f "$LOCK"
 fi
