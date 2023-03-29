@@ -6,6 +6,7 @@
 00 09 * * * $HOME/cron/stat.sh "$HOME/Downloads/1091/stat" log
 
 # ぐーもる荘
+* * * * * for i in $(seq 0 20 59); do (sleep $i; $HOME/cron/gmr-config-sync.sh log) & done
 * * * * * for i in $(seq 3 20 59); do (sleep $i; $HOME/cron/gmr-check-feeds.sh "$HOME/Downloads/1091/gu-morusou/feeds-owner" fc "$HOME/Downloads/1091/gu-morusou/.lock_check-feeds-owner") & done
 * * * * * for i in $(seq 5 20 59); do (sleep $i; $HOME/cron/gmr-check-likes.sh "$HOME/Downloads/1091/gu-morusou/like_latest" fc "$HOME/Downloads/1091/gu-morusou/.lock_check-likes") & done
 * * * * * for i in $(seq 8 20 59); do (sleep $i; $HOME/cron/gmr-feed-fetch.sh "$HOME/Downloads/1091/gu-morusou/feeds/" 10 "$HOME/Downloads/1091/gu-morusou/.lock_feeds-fetch") & done
