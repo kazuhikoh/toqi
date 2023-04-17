@@ -19,7 +19,7 @@
 00 00 * * * rm -rf /tmp/tmp.gmr*
 
 # Check AGQR
-#* * * * * $HOME/cron/record-agqr-check.sh log
+* * * * * $HOME/cron/record-agqr-check.sh "$HOME/Downloads/agrec-check.err" log
 
 # 徳井青空のまぁるくなぁれ！ (毎週木曜25:00-25:30)
 #00 01 * * 5 $HOME/cron/record-agqr-marunare.sh "$HOME/Downloads/1091/marunare" log
